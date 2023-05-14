@@ -1,0 +1,380 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Luxurious+Roman&display=swap');
+:root
+{
+    --bg_blue:#C3EEFA;
+    --bg_pink:#FFD1DC;
+    --bg_grey:#efefef;
+    --text_black:#222222;
+    --bg-shadow:#dfdfdf;
+}
+.main-content
+{
+    max-width: 100vw;
+}
+body
+{
+    font-size: 1.5em;
+    font-family: "Luxurious Roman" serif;
+    margin: 0;
+    padding: 0;
+}
+*
+{
+    text-decoration: none;
+    box-sizing: border-box;
+}
+ul
+{
+    list-style: none;
+    padding: 0;
+}
+.hidden
+{
+    display: none !important;
+}
+.section
+{
+    background: var(--bg_grey);
+    display: block;
+    position: fixed;
+    min-height: 100vh;
+    top: 0;
+    left: 10em;
+    right: 0;
+    bottom: 0;
+    padding-left: 2em;
+    z-index: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+}
+.section .head
+{
+    display: flex;
+}
+.section .head img
+{
+    margin:0.2em;
+}
+.section .head h1
+{
+    background-color: var(--bg_pink);
+    height: 100%;
+    width: 100%;
+    margin-top: 2em;
+    margin-left: 1em;
+    padding: 0.15em;
+}
+.padd-v
+{
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.padd-h
+{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+img
+{
+    background: red;
+    width: 5em;
+    height: 8em;
+}
+.active
+{
+    z-index: 2;
+    opacity: 1;
+    animation: slide 1s ease;
+}
+.inactive
+{
+    z-index: 1;
+}
+@keyframes slide
+{
+    0%
+    {
+        transform: translateX(100%);
+    }
+    100%
+    {
+        transform: translateX(0%);
+    }
+}
+/*Aside*/
+aside
+{
+    background: var(--bg_blue);
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    width: 10em;
+    position: fixed;
+    border-right: lightgray solid 0.1em;
+}
+aside h1
+{
+    text-align: center;
+    margin: 0;
+    padding-top: 1em;
+    font-weight: 600;
+    font-size: 2.5em;
+    font-family: "Dancing Script", cursive;
+    text-decoration: underline solid 0.15em var(--bg_pink);
+    margin-bottom: 1em;
+}
+aside h1 span
+{
+    font-size: 1.2em;
+}
+aside nav li
+{
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 2em;
+    text-decoration: underline solid 0.1em var(--bg_pink);
+}
+aside nav li:hover
+{
+    cursor: pointer;
+    transition: 0.3s ease all;
+    transform: scale(1.05);
+}
+aside footer
+{
+    font-size: 0.7em;
+    font-weight: 300;
+    position: absolute;
+    margin-bottom: 0.5em;
+    margin-left: 0.5em;
+    bottom: 0;
+    font-style: italic;
+}
+aside a:active, a:visited
+{
+    text-decoration: none;
+    color: var(--text_black);
+}
+/*Home*/
+.home p
+{
+    background: var(--bg-shadow);
+    border-radius: 1em;
+    padding: 0.5em;
+}
+.home ul
+{
+    display: flex;
+    justify-content: space-around;
+}
+.home ul li
+{
+    flex: 1;
+    text-align: center;
+    margin-left: 1em;    
+    background: var(--bg_blue);
+    border-radius: 3em;
+    border: 0.1em solid var(--bg-shadow);
+    height: 100%;
+}
+.home ul li:hover
+{
+    cursor: pointer;
+}
+/*About*/
+.about .about1,
+.about .about2
+{
+    display: flex;
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+.about .about1 p,
+.about .about2 p
+{
+    flex: 1;
+    border-radius: 2em;
+}
+.about .about1 p:hover,
+.about .about2 p:hover
+{
+    background: var(--bg-shadow);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+.about .about_footer
+{
+    /*get content for this before formatting*/
+}
+/*skills*/
+.skills .skill1
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+.skills .skill1 ul
+{
+    flex: 1;
+    width: 15em;
+    margin-right: 3em;
+    max-height: 100%;
+}
+.skills .skill1 .confiSlider
+{
+    max-width: 15em;
+    height: 2.2em;
+}
+.skills .skill1 .confiSlider .progress
+{
+    background-color: var(--bg-shadow);
+    border: 1px solid var(--text_black);
+    height: 0.8em;
+    border-radius: 5px;
+    width: 100%;
+    position: relative;
+}
+.skills .skill1 .confiSlider .skill
+{
+    position: absolute;
+    top: -60px;
+    left: 0;
+}
+.skills .skill1 .confiSlider .progress .progress-in
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--text_black);
+    background-color: var(--bg_blue);
+}
+.skills .skill1 .confiSlider .progress .skill-percent
+{
+    position: absolute;
+    right: 0;
+    color: var(--text_black);
+    top: -40px;
+    font-weight: 400;
+    line-height: 40px;
+}
+.skills .skill1 .soft_skill
+{
+    padding-bottom: 0.1em;
+}
+.skills section
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+.skills section .education,
+.skills section .experience
+{
+    flex: 1;
+}
+.skills section .education .eduitem,
+.skills section .experience .expitem
+{
+    background: var(--bg-shadow);
+    margin-right: 3em;
+    margin-bottom: 0.5em;
+    border-radius: 1em;
+    padding-inline: 1em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    width: 18em;
+}
+.skills section .education .eduitem:hover,
+.skills section .experience .expitem:hover
+{
+    transition: 0.6s all ease;
+    transform: scale(1.05);
+    border: 0.1em solid grey;
+}
+.skills section .education .eduitem i,
+.skills section .experience .expitem i
+{
+    text-decoration: underline 0.1em var(--text_black);
+}
+/*past*/
+.past .project_past,
+.past .project_curr
+{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+}
+.past .project_past .projectitem,
+.past .project_curr .projectitem
+{
+    flex: 1;
+    text-align: center;
+}
+.past .projectitem img
+{
+    border-radius: 10%;
+    overflow: hidden;
+}
+.past .projectitem img:hover
+{
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+/*contact Section*/
+.contact ul
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.5em;
+}
+.contact ul li
+{
+    flex: 1;
+    max-width: fit-content;
+    margin-right: 2em;
+}
+.contact h3
+{
+    text-decoration: underline;
+}
+.contact form
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+.contact form div
+{
+    max-width: 100%;
+    width: 100%;
+}
+.contact form .form_small
+{
+    flex: 0 0 50%;
+    max-width: 40%;
+    width: 40%;
+    margin-right: 2em;
+    margin-bottom: 2em;
+    padding: 1em;
+    border-radius: 3em;
+}
+.contact form .m_info
+{
+    display: flex;
+    flex-direction: column;
+}
+.contact form .m_info textarea
+{
+    border-radius: 3em;
+    text-indent: 1em;
+    padding: 1em;
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+.contact form input[type=submit]
+{
+    height: 2em;
+    width: 15em;
+    border-radius: 1em;
+}
