@@ -1,16 +1,3 @@
-<?php
-    $email = "jesse.caitlyn.james20@gmail.com";
-    $name = $_POST['m_name'];
-    $v_email = $_POST['m_email'];
-    $phone = $_POST['m_phone'];
-    $subject = $_POST['m_subject'];
-    $content = $_POST['m_message'];
-    if(!isset($_POST['m_email']))
-    {
-        mail($email, $subject, $content.\r.$phone.\r.$v_email);
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -251,7 +238,7 @@
                     <li>Linkedin: Jesse-Caitlyn-James</li>
                     <li>Contact Method</li>
                 </ul>
-                <form action="index.html" method="post">
+                <form action="mailto:jesse.caitlyn.james20@gmail.com">
                     <h3>Send Me A Message</h3>
                     <div>
                     <input type="text" id="m_name" class=" form_small" name="m_name" placeholder="Name">
