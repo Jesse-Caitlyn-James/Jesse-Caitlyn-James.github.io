@@ -152,7 +152,7 @@ aside footer
     bottom: 0;
     font-style: italic;
 }
-aside a:active, a:visited
+aside a:link, a:active, a:visited
 {
     text-decoration: none;
     color: var(--text_black);
@@ -196,6 +196,8 @@ aside a:active, a:visited
 {
     flex: 1;
     border-radius: 2em;
+    margin-right: 1em;
+    padding: 1em;
 }
 .about .about1 p:hover,
 .about .about2 p:hover
@@ -204,9 +206,21 @@ aside a:active, a:visited
     transform: scale(1.05);
     transition: all 0.3s ease;
 }
-.about .about_footer
+.about .about_footer a
 {
-    /*get content for this before formatting*/
+    border-radius: 1em;
+    padding: 0.2em;
+}
+.about .about_footer a:link, a:visited
+{
+    color: var(--text_black);
+    text-decoration: underline var(--bg_pink);
+}
+.about .about_footer a:hover, a:active
+{
+    transform: scale(1.05);
+    transition: all ease 0.3s;
+    background-color: var(--bg_blue);
 }
 /*skills*/
 .skills .skill1
