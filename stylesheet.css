@@ -327,6 +327,7 @@ aside a:link, a:active, a:visited
 {
     border-radius: 10%;
     overflow: hidden;
+    max-width: 100%;
 }
 .past .projectitem img:hover
 {
