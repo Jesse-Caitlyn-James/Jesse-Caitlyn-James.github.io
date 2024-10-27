@@ -76,7 +76,7 @@ export class Pen {
             console.warn("no user made function for draw given!");
         }
     ) {
-        this.canvas = document.getElementById("myCanvas");
+        this.canvas = document.getElementById("myUICanvas");
         // @ts-ignore
         this.context = this.canvas.getContext("2d");
 
@@ -1021,7 +1021,7 @@ ${Video.loading.title} | ${Video.loading.url}
      * @param {any} userDrawFunc
      * @param {any} canvas
      */
-    use(userDrawFunc, canvas = document.getElementById("myCanvas")) {
+    use(userDrawFunc, canvas = document.getElementById("myUICanvas")) {
         this.#userFuncs.draw = userDrawFunc;
         this.setupCanvas();
 

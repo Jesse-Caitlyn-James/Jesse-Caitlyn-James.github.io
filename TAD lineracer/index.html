@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TAD Line Racer</title>
+    <script src="./js/lineracer/pitlane/pitlane.js" type="module" defer></script>
     <script src="./js/lineracer/lineracer.js" type="module" defer></script>
     <style>
         html, body {
@@ -38,6 +39,7 @@
             overflow:hidden;
             /* margin:auto;  */
             padding:1rem;
+            position: absolute;
         }
         #debug.hidden {
             right: -360px; /* Hide all except 1px */
@@ -115,6 +117,9 @@
     </dialog>
     <div class="wrapper">
         <canvas id="myCanvas"  ></canvas>
+    </div>
+    <div class="wrapper">
+        <canvas id="myUICanvas"  ></canvas>
     </div>
     <aside id="debug" class="invisible">
         <button id="showhidebtn">🔍</button>
