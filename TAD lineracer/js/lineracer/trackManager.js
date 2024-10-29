@@ -1,3 +1,5 @@
+import {lapFinished} from "./lineracer.js";
+
 export class TrackManager {
     constructor() {
         this.trackArr = [];
@@ -189,6 +191,7 @@ export class TrackManager {
             this.trackDistance = 0.0;
             this.trackSegment += 2;
             if (this.trackSegment >= this.trackArr.length) {
+                lapFinished();
                 this.trackSegment = 0;
             }
         }

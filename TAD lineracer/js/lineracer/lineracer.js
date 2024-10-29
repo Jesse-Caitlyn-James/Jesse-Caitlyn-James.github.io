@@ -1,5 +1,6 @@
 import { $ } from "../../lib/Pen.js";
 import { TrackManager } from "./trackManager.js";
+import "./pitlane/pitlane.js";
 
 $.use(update);
 
@@ -7,6 +8,7 @@ $.width = 1000;
 $.height = 1000;
 
 let trackManager = new TrackManager();
+let coins = 0;
 
 function update() {
     setBackground();
@@ -29,6 +31,10 @@ function updateUI(){
     $.colour.fill = "#454545";
     $.shape.rectangle(100, $.h-25, 175, 45);
 
+    $.text.size = 30;
+    $.text.font = "Comic Sans MS";
+    $.text.print($.w-100, $.h-25, "Coins: " + coins, 175);
+
     if ($.mouse.leftReleased) {
         uiInput();
     }
@@ -49,6 +55,12 @@ function uiInput(){
             canvas.classList.add("invisible");
         }
     }
+}
+
+
+// Gamemanager stuff
+export function lapFinished(){
+    coins += trackManager.trackArr.length/4;
 }
 
 // Things to do
