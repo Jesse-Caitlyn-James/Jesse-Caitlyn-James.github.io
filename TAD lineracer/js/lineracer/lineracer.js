@@ -10,6 +10,8 @@ $.height = 1000;
 let trackManager = new TrackManager();
 let coins = 0;
 
+let carButt = $.makeButton(300, $.h-25, 175, 45, "Carrr");
+
 function update() {
     setBackground();
     trackManager.trackUpdate();
@@ -35,6 +37,8 @@ function updateUI(){
     $.text.font = "Comic Sans MS";
     $.text.print($.w-100, $.h-25, "Coins: " + coins, 175);
 
+    carButt.draw();
+
     if ($.mouse.leftReleased) {
         uiInput();
     }
@@ -55,6 +59,10 @@ function uiInput(){
             canvas.classList.add("invisible");
         }
     }
+
+    if(carButt.down){
+        trackManager.addCar();
+    }
 }
 
 
@@ -65,7 +73,9 @@ export function lapFinished(){
 
 // Things to do
 /**
- * Make class for cars
+ * Make car speed fluctuate
  * Make class for game manager - coins/rate of failure/etc
  * Make code for pitlane - moving "staff" to positions, fixing failures, upgrades
+ *      - Also add car upgrading
+ * Make Upgrade UI menu
  */

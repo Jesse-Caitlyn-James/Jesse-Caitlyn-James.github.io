@@ -3,9 +3,9 @@ import {lapFinished} from "./lineracer.js";
 export class TrackManager {
     constructor() {
         this.trackArr = [];
-        this.trackSegment = 0;
-        this.trackDistance = 0;
-        this.speed = 0.01;
+        this.racers = $.makeGroup();
+        
+        this.addCar();
 
         this.trackNodes = $.makeGroup();
         for (let i = 0; i < 4; i++) {
@@ -52,7 +52,8 @@ export class TrackManager {
 
     trackUpdate() {
         this.drawTrack();
-        this.drawRacer();
+        this.moveRacer();
+
         this.trackNodes.draw();
 
         if ($.mouse.leftReleased) {
@@ -65,14 +66,6 @@ export class TrackManager {
         $.shape.polygon(...this.trackArr);
         $.colour.fill = "green";
         $.shape.rectangle(this.trackArr[0], this.trackArr[1],20,20);
-    }
-    
-    drawRacer() {
-        $.colour.fill = "red";
-        let rpos = this.getPos();
-        $.shape.oval(rpos[0], rpos[1], 5, 5);
-    
-        this.moveRacer();
     }
 
     addTrackNode(node) {
@@ -163,38 +156,47 @@ export class TrackManager {
         return true
     }
 
-    getPos() {
-        let x = this.trackArr[this.trackSegment];
-        let y = this.trackArr[this.trackSegment + 1];
+    getPos(racer) {
+        let x = this.trackArr[racer.trackSegment];
+        let y = this.trackArr[racer.trackSegment + 1];
         let xDest;
         let yDest;
     
         // Checks it is at the end of the track
-        if (this.trackSegment >= this.trackArr.length - 2) {
+        if (racer.trackSegment >= this.trackArr.length - 2) {
             xDest = this.trackArr[0];
             yDest = this.trackArr[1];
         }
         else {
-            xDest = this.trackArr[this.trackSegment + 2];
-            yDest = this.trackArr[this.trackSegment + 3];
+            xDest = this.trackArr[racer.trackSegment + 2];
+            yDest = this.trackArr[racer.trackSegment + 3];
         }
     
-        let xpos = x + ((xDest - x) * this.trackDistance);
-        let ypos = y + ((yDest - y) * this.trackDistance);
+        let xpos = x + ((xDest - x) * racer.trackDistance);
+        let ypos = y + ((yDest - y) * racer.trackDistance);
         return [xpos, ypos];
     }
     
     moveRacer() {
-        this.trackDistance += this.speed;
-    
-        if (this.trackDistance >= 1.0) {
-            this.trackDistance = 0.0;
-            this.trackSegment += 2;
-            if (this.trackSegment >= this.trackArr.length) {
-                lapFinished();
-                this.trackSegment = 0;
+        for(let i = 0; i < this.racers.length; i++){
+            let racer = this.racers[i];
+            let rpos = this.getPos(racer);
+
+            racer.x = rpos[0];
+            racer.y = rpos[1];
+
+            racer.trackDistance += racer.moveSpeed;
+            if (racer.trackDistance >= 1.0) {
+                racer.trackDistance = 0.0;
+                racer.trackSegment += 2;
+                if (racer.trackSegment >= this.trackArr.length) {
+                    lapFinished(racer);
+                    racer.trackSegment = 0;
+                }
             }
         }
+        
+        this.racers.draw();
     }
     
     addSegement() {
@@ -207,5 +209,13 @@ export class TrackManager {
                 this.addTrackNode(node);
             }
         }
+    }
+
+    addCar(){
+        let car = $.makeCircleCollider(0, 0, 10);
+        car.trackDistance = 0;
+        car.trackSegment = 0;
+        car.moveSpeed = 0.01;
+        this.racers.push(car);
     }
 }

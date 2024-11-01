@@ -41,9 +41,11 @@ function update() {
                 if (selectedTool.onToolBar){
                     selectedTool.x = selectedTool.homeX;
                     selectedTool.y = selectedTool.homeY;
+                    selectedTool.onToolBar = true;
                 }
             }
         }
+        // Doews something sketchy  - toolsOnbar[] is bugged
         if(!selectedTool.onToolBar && !selectedTool.inFrame){
             selectedTool.x = toolsOnBar.length * 30 + 20;
             selectedTool.y = toolbar.y;
@@ -81,6 +83,7 @@ function addTool() {
     tool.homeX = tool.x;
     tool.homeY = tool.y;
     tool.static = true;
+    tool.onToolBar = true;
     toolGroup.push(tool);
     toolsOnBar.push(tool);
 }
@@ -89,7 +92,9 @@ function pickupTool() {
     if (!selectedTool) {
         for (let i = 0; i < toolGroup.length; i++) {
             if ($.mouse.x > toolGroup[i].x1 && $.mouse.x < toolGroup[i].x2 && $.mouse.y > toolGroup[i].y1 && $.mouse.y < toolGroup[i].y2) {
-                toolsOnBar = toolsOnBar.splice(i, 1);
+                if(toolGroup[i].onToolBar){
+                    toolsOnBar = toolsOnBar.splice(i, 1);
+                }
                 selectedTool = toolGroup[i];
             }
         }
