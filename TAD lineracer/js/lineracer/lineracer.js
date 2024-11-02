@@ -1,20 +1,22 @@
 import { $ } from "../../lib/Pen.js";
 import { TrackManager } from "./trackManager.js";
-import "./pitlane/pitlane.js";
+import { Gamemanager } from "./gameManager.js";
 
 $.use(update);
 
-$.width = 1000;
-$.height = 1000;
+$.width = 800;
+$.height = 800;
 
 let trackManager = new TrackManager();
-let coins = 0;
+let gameManager = new Gamemanager();
 
 let carButt = $.makeButton(300, $.h-25, 175, 45, "Carrr");
+let laneButton = $.makeButton(100, $.h-25, 175, 45, "Pits");
 
 function update() {
     setBackground();
     trackManager.trackUpdate();
+    gameManager.gmUpdate();
     updateUI();
 }
 
@@ -35,9 +37,18 @@ function updateUI(){
 
     $.text.size = 30;
     $.text.font = "Comic Sans MS";
-    $.text.print($.w-100, $.h-25, "Coins: " + coins, 175);
+    $.text.print($.w-100, $.h-25, "Coins: " + gameManager.coins, 175);
+
+    if (gameManager.carsInLane > 0){
+        laneButton.background = "Red";
+        laneButton.label = "Pits: " + gameManager.carsInLane;
+    } else {
+        laneButton.background = "grey";
+        laneButton.text = "Pits";
+    }
 
     carButt.draw();
+    laneButton.draw();
 
     if ($.mouse.leftReleased) {
         uiInput();
@@ -45,12 +56,7 @@ function updateUI(){
 }
 
 function uiInput(){
-    let x1 = 100 - 175/2;
-    let x2 = 100 + 175/2;
-    let y1 = $.h-25 - 45/2;
-    let y2 = $.h-25 + 45/2;
-
-    if ($.mouse.x > x1 && $.mouse.x < x2 && $.mouse.y > y1 && $.mouse.y < y2) {
+    if (laneButton.down) {
         let canvas = document.getElementById("myUICanvas");
         if(canvas.className == "invisible"){
             canvas.classList.remove("invisible");
@@ -65,16 +71,17 @@ function uiInput(){
     }
 }
 
+export function lapFinished(racer){
+    gameManager.coins += trackManager.trackArr.length/4;
+    gameManager.checkFailure(racer, trackManager.racers);
+}
 
-// Gamemanager stuff
-export function lapFinished(){
-    coins += trackManager.trackArr.length/4;
+export function getObjects(){
+    return [trackManager, gameManager];
 }
 
 // Things to do
 /**
- * Make car speed fluctuate
- * Make class for game manager - coins/rate of failure/etc
  * Make code for pitlane - moving "staff" to positions, fixing failures, upgrades
  *      - Also add car upgrading
  * Make Upgrade UI menu

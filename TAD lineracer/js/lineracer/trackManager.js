@@ -4,9 +4,8 @@ export class TrackManager {
     constructor() {
         this.trackArr = [];
         this.racers = $.makeGroup();
-        
         this.addCar();
-
+        
         this.trackNodes = $.makeGroup();
         for (let i = 0; i < 4; i++) {
             let node = $.makeCircleCollider($.w / 2, $.h / 2, 10);
@@ -185,8 +184,15 @@ export class TrackManager {
             racer.x = rpos[0];
             racer.y = rpos[1];
 
+            if(!(racer.moveSpeed >= racer.maxSpeed)){
+                racer.moveSpeed *= racer.acceleration;
+            }
+            
             racer.trackDistance += racer.moveSpeed;
             if (racer.trackDistance >= 1.0) {
+                if ($.math.random(0, 1) <= racer.speedFlux){
+                    racer.moveSpeed *= 0.5;
+                }
                 racer.trackDistance = 0.0;
                 racer.trackSegment += 2;
                 if (racer.trackSegment >= this.trackArr.length) {
@@ -215,7 +221,11 @@ export class TrackManager {
         let car = $.makeCircleCollider(0, 0, 10);
         car.trackDistance = 0;
         car.trackSegment = 0;
-        car.moveSpeed = 0.01;
+        car.moveSpeed = 0.001;
+        car.maxSpeed = 0.01;
+        car.speedFlux = 0.5;
+        car.acceleration = 1.01;
+        car.failureChance = 0.3;
         this.racers.push(car);
     }
 }

@@ -1,26 +1,33 @@
 import { $ } from "./lib/Pen.js";
+import { getObjects } from "../lineracer.js";
+import { LaneManager } from "./laneManager.js";
 
 $.use(update);
 
-$.width = 1000;
+$.width = 800;
 $.height = 400;
 
 let toolbar = { x: $.w / 2, y: $.h - 25 }
-let frame1 = { x: $.w * 0.2, y: $.h * 0.4 };
-let frame2 = { x: $.w * 0.5, y: $.h * 0.4 };
-let frame3 = { x: $.w * 0.8, y: $.h * 0.4 };
-let frames = [frame1, frame2, frame3];
 
 let toolGroup = $.makeGroup();
 let toolsOnBar = $.makeGroup();
 let selectedTool = null;
+
+let laneManager = new LaneManager();
+let trackManager = getObjects()[0];
+let gameManager = getObjects()[1];
+
+laneManager.laneGroup = gameManager.laneGroup;
 
 addTool();
 addTool();
 
 function update() {
     setBackground();
-    drawFrames();
+    drawToolbar();
+    laneManager.laneUpdate();
+    updateLaneGroup();
+
     $.drawColliders();
 
     if ($.mouse.leftDown) {
@@ -28,24 +35,28 @@ function update() {
     }
     else if (selectedTool) {
         selectedTool.inFrame = false;
-        for (let i = 0; i < frames.length; i++) {
-            if (frames[i].x > selectedTool.x1 && frames[i].x < selectedTool.x2 && frames[i].y > selectedTool.y1 && frames[i].y < selectedTool.y2) {
-                selectedTool.homeX = frames[i].x;
-                selectedTool.homeY = frames[i].y;
-                selectedTool.x = selectedTool.homeX;
-                selectedTool.y = selectedTool.homeY;
-                selectedTool.onToolBar = false;
-                selectedTool.inFrame = true;
-            }
-            else {
-                if (selectedTool.onToolBar){
+        for (let i = 0; i < laneManager.frames.length; i++) {
+            let frame = laneManager.frames[i];
+            for (let j = 0; j < frame.spots.length; j++){
+                let spot = frame.spots[j];
+                if (spot.x > selectedTool.x1 && spot.x < selectedTool.x2 && spot.y > selectedTool.y1 && spot.y < selectedTool.y2) {
+                    selectedTool.homeX = spot.x;
+                    selectedTool.homeY = spot.y;
                     selectedTool.x = selectedTool.homeX;
                     selectedTool.y = selectedTool.homeY;
-                    selectedTool.onToolBar = true;
+                    selectedTool.onToolBar = false;
+                    selectedTool.inFrame = true;
+                }
+                else {
+                    if (selectedTool.onToolBar){
+                        selectedTool.x = selectedTool.homeX;
+                        selectedTool.y = selectedTool.homeY;
+                    }
                 }
             }
         }
         // Doews something sketchy  - toolsOnbar[] is bugged
+        // It seems somewhere it isn't removed/added to the toolbar
         if(!selectedTool.onToolBar && !selectedTool.inFrame){
             selectedTool.x = toolsOnBar.length * 30 + 20;
             selectedTool.y = toolbar.y;
@@ -55,6 +66,7 @@ function update() {
             selectedTool.inFrame = false;
             toolsOnBar.push(selectedTool);
         }
+
         selectedTool = null;
     }
 }
@@ -66,16 +78,11 @@ function setBackground() {
     $.colour.fill = oldColour;
 }
 
-function drawFrames() {
+function drawToolbar() {
     $.colour.fill = "#D2B48C";
     $.shape.rectangle(toolbar.x, toolbar.y, $.w, 50);
 
-    $.colour.fill = "blue";
-    $.shape.rectangle(frame1.x, frame1.y, 10, 10);
-    $.shape.rectangle(frame2.x, frame2.y, 10, 10);
-    $.shape.rectangle(frame3.x, frame3.y, 10, 10);
-
-    // Make the other game shaped thing in here
+    laneManager.drawLanes();
 }
 
 function addTool() {
@@ -84,6 +91,7 @@ function addTool() {
     tool.homeY = tool.y;
     tool.static = true;
     tool.onToolBar = true;
+    tool.inFrame = false;
     toolGroup.push(tool);
     toolsOnBar.push(tool);
 }
@@ -93,6 +101,7 @@ function pickupTool() {
         for (let i = 0; i < toolGroup.length; i++) {
             if ($.mouse.x > toolGroup[i].x1 && $.mouse.x < toolGroup[i].x2 && $.mouse.y > toolGroup[i].y1 && $.mouse.y < toolGroup[i].y2) {
                 if(toolGroup[i].onToolBar){
+                    toolGroup[i].onToolBar = false;
                     toolsOnBar = toolsOnBar.splice(i, 1);
                 }
                 selectedTool = toolGroup[i];
@@ -103,4 +112,24 @@ function pickupTool() {
         selectedTool.x = $.mouse.x;
         selectedTool.y = $.mouse.y;
     }
+}
+
+function updateLaneGroup(){
+    laneManager.laneGroup = gameManager.laneGroup;
+    for(let i = 0; i < laneManager.laneGroup.length; i++){
+        let racer = laneManager.laneGroup[i];
+        if(racer.pitLane == null){
+            for(let j = 0; j < laneManager.frames.length; j++){
+                let frame = laneManager.frames[j];
+                if(frame.pitRacer == null && racer.pitLane == null){
+                    frame.pitRacer = racer;
+                    racer.pitLane = j;
+                    frame.fill = "red";
+                }
+            }
+        }
+    }
+
+    gameManager.laneGroup = laneManager.laneGroup;
+    // In gamemanager make it check if repair is at 100% to put back in track
 }
