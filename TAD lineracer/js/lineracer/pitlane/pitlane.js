@@ -121,15 +121,24 @@ function updateLaneGroup(){
         if(racer.pitLane == null){
             for(let j = 0; j < laneManager.frames.length; j++){
                 let frame = laneManager.frames[j];
-                if(frame.pitRacer == null && racer.pitLane == null){
+                if(frame.pitRacer == null && racer.pitLane == null && racer.repair < 100){
                     frame.pitRacer = racer;
                     racer.pitLane = j;
                     frame.fill = "red";
                 }
             }
+        } else {
+            let pitRepair = laneManager.frames[racer.pitLane].pitRepair;
+            racer.repair += pitRepair;
+
+            if(racer.repair >= 100){
+                laneManager.frames[racer.pitLane].fill = "green";
+                laneManager.frames[racer.pitLane].pitRacer = null;
+                racer.pitLane = null;
+            }
+            console.log(racer.repair);
         }
     }
 
     gameManager.laneGroup = laneManager.laneGroup;
-    // In gamemanager make it check if repair is at 100% to put back in track
 }

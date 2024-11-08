@@ -226,6 +226,7 @@ export class TrackManager {
         car.speedFlux = 0.5;
         car.acceleration = 1.01;
         car.failureChance = 0.3;
+        car.repair = 100;
         this.racers.push(car);
     }
 }

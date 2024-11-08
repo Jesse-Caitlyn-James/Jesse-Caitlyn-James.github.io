@@ -22,14 +22,17 @@ export class LaneManager{
             {x: frame.x - 75, y: frame.y},
             {x: frame.x + 75, y: frame.y}
         ];
+        frame.repairBase = 0.1;
+        frame.repairBonus = 0.0;
+        frame.pitRepair = frame.repairBase + frame.repairBonus;
 
         this.frames.push(frame);
     }
 
     drawLanes(){
         for(let i = 0; i < this.frames.length; i++){
-            $.colour.fill = "blue";
             let frame = this.frames[i];
+            frame.pitRepair = frame.repairBase + frame.repairBonus;
 
             this.drawStaffSpots(frame);
         }

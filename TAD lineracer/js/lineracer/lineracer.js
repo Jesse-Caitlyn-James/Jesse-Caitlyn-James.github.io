@@ -17,6 +17,7 @@ function update() {
     setBackground();
     trackManager.trackUpdate();
     gameManager.gmUpdate();
+    gameManager.repairCheck(trackManager.racers);
     updateUI();
 }
 
@@ -44,9 +45,9 @@ function updateUI(){
         laneButton.label = "Pits: " + gameManager.carsInLane;
     } else {
         laneButton.background = "grey";
-        laneButton.text = "Pits";
+        laneButton.label = "Pits";
     }
-
+    
     carButt.draw();
     laneButton.draw();
 
