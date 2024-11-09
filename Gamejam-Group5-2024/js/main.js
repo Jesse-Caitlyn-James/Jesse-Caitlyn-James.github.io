@@ -16,11 +16,13 @@ let bgImg;
 let gathererImg;
 let gemImg; 
 let baseImg;
+let enemyImg;
 
 function preload(){
     gathererImg = loadImage("./Assets/Images/gatherfella.png");
     gemImg = loadImage("./Assets/Images/GemGeode.png");
-    baseImg = loadImage("./Assets/IMages/CombatTankPlayer.png");
+    baseImg = loadImage("./Assets/Images/CombatTankPlayer.png");
+    enemyImg = loadImage("./Assets/Images/CombatTankEnemy.png");
     bgImg = loadImage("./Assets/Images/groundtexture100x100.png");
 }
 
